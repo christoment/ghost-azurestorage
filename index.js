@@ -7,6 +7,7 @@ const date = require("./lib/getDate")
 const sizes = require("./lib/sizes");
 const resize = require("./lib/resize");
 const getUrl = require("./lib/resolveUrl")
+const resolveStringParam = require("./lib/resolveStringParam")
 const FileService = require("./lib/fileService");
 
 var options = {};
@@ -21,7 +22,7 @@ class AzureStorageAdapter extends BaseStorage {
       process.env.AZURE_STORAGE_CONNECTION_STRING || options.connectionString;
     options.container = process.env.AZURE_STORAGE_CONTAINER || options.container || "content";
     options.cdnUrl = process.env.AZURE_STORAGE_CDN_URL || options.cdnUrl;
-    options.useHttps = (process.env.AZURE_STORAGE_USE_HTTPS || options.useHttps) == "true";
+    options.useHttps = resolveStringParam.boolean(process.env.AZURE_STORAGE_USE_HTTPS || options.useHttps) === true;
     options.useDatedFolder = process.env.AZURE_STORAGE_USE_DATED_FOLDER || options.useDatedFolder || false;
     options.cacheControl = process.env.AZURE_STORAGE_CACHE_CONTROL || options.cacheControl || "2592000";
   }
