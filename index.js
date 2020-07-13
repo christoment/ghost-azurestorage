@@ -23,7 +23,7 @@ class AzureStorageAdapter extends BaseStorage {
     options.container = process.env.AZURE_STORAGE_CONTAINER || options.container || "content";
     options.cdnUrl = process.env.AZURE_STORAGE_CDN_URL || options.cdnUrl;
     options.useHttps = resolveStringParam.boolean(process.env.AZURE_STORAGE_USE_HTTPS || options.useHttps) === true;
-    options.useDatedFolder = process.env.AZURE_STORAGE_USE_DATED_FOLDER || options.useDatedFolder || false;
+    options.useDatedFolder = resolveStringParam.boolean(process.env.AZURE_STORAGE_USE_DATED_FOLDER || options.useDatedFolder) || false;
     options.cacheControl = process.env.AZURE_STORAGE_CACHE_CONTROL || options.cacheControl || "2592000";
   }
 
