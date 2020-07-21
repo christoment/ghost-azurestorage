@@ -48,7 +48,15 @@ class AzureStorageAdapter extends BaseStorage {
     };
 
     // remove original ext & set .webp format extension
-    const imageName = image.name.replace(/\.[^/.]+$/, "");
+    const imageNameRegexResult = /^(.*?)\.(\w+)$/.exec(image.name);
+    let imageName = image.name;
+    let imageExt = null;
+
+    if (imageNameRegexResult.length === 3) {
+      // Image with valid extensions, capture the name and extensions here
+      imageName = imageNameRegexResult[1];
+      imageExt = imageNameRegexResult[2];
+    }
 
     // Appends the dated folder if enabled
     if (options.useDatedFolder) {   
@@ -73,7 +81,7 @@ class AzureStorageAdapter extends BaseStorage {
         resolve(getUrl.url(options, urlValue));
 
         // resize images
-        await resize(image.path, image.ext);
+        await resize(image.path, imageExt);
 
         // set vars for resize upload
         for (let size of sizes) {
